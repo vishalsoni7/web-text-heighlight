@@ -13,11 +13,21 @@ A Chrome extension that allows users to highlight text on any webpage and save h
 
 ## Tech Stack
 
-- **React** with **TypeScript**
+- **React 18** with **TypeScript**
 - **Material-UI (MUI)** for the popup interface
 - **react-hot-toast** for notifications
 - **Vite** for fast builds
 - **Chrome Extension Manifest V3**
+
+## Architecture
+
+The codebase follows a clean, modular architecture with clear separation of concerns:
+
+- **Components**: Reusable UI components following single responsibility principle
+- **Hooks**: Business logic encapsulated in custom hooks
+- **Types**: Centralized type definitions for type safety
+- **Utils**: Pure utility functions for common operations
+- **Theme**: Consistent styling through centralized theme configuration
 
 ## Installation
 
@@ -81,7 +91,22 @@ web-text-highlight/
 │   ├── background.js      # Service worker for storage management
 │   └── icon.svg          # Extension icon
 ├── src/
-│   ├── App.tsx           # Main React component with MUI interface
+│   ├── components/        # React components
+│   │   ├── HighlightManager.tsx  # Main component container
+│   │   ├── Header.tsx            # App header with title and count
+│   │   ├── EmptyState.tsx        # Display when no highlights exist
+│   │   ├── HighlightList.tsx     # List container for highlights
+│   │   └── HighlightItem.tsx     # Individual highlight item component
+│   ├── hooks/            # Custom React hooks
+│   │   └── useHighlights.ts      # Hook for managing highlights state
+│   ├── types/            # TypeScript type definitions
+│   │   └── highlight.ts          # Highlight interface definition
+│   ├── theme/            # Material-UI theme configuration
+│   │   └── theme.ts              # Custom theme settings
+│   ├── utils/            # Utility functions
+│   │   ├── chromeApi.ts          # Chrome API wrapper functions
+│   │   └── dateFormatter.ts      # Date formatting utilities
+│   ├── App.tsx           # Main app entry component
 │   ├── App.css           # App styles
 │   ├── main.tsx          # React entry point
 │   └── chrome.d.ts       # TypeScript definitions for Chrome API
@@ -117,10 +142,12 @@ To make changes to the extension:
    - Handles save/delete/retrieve operations
    - Acts as a message broker between content script and popup
 
-3. **Popup UI** (`App.tsx`):
-   - React app with Material-UI components
-   - Displays saved highlights
-   - Handles user interactions
+3. **Popup UI** (React Application):
+   - **Components**: Modular UI components for header, list, and individual highlights
+   - **Hooks**: Custom `useHighlights` hook manages state and Chrome API interactions
+   - **Utils**: Separated Chrome API functions and date formatting utilities
+   - **Theme**: Centralized Material-UI theme configuration
+   - **Types**: TypeScript interfaces for type safety
 
 ## Browser Permissions
 
